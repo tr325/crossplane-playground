@@ -1,0 +1,10 @@
+# Creates an S3 Bucket as a Crossplane Managed Resource (MR)
+
+apiVersion: s3.aws.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  namespace: default
+  generateName: crossplane-bucket-
+spec:
+  forProvider:
+    region: eu-central-1

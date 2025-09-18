@@ -1,0 +1,15 @@
+# This cluster-wide Provider Configuration customises MR settings
+#  We need it so that the S3 provider can find the creds to create S3 MRs.
+#  You can also create provider configs that apply only to specific MRs.
+
+apiVersion: aws.m.upbound.io/v1beta1
+kind: ClusterProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: crossplane-system
+      name: aws-secret
+      key: creds

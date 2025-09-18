@@ -46,7 +46,3 @@ spec:
                 "configMapName": watched_resource["metadata"]["name"],
                 "status": "warning" if not valid else "ok"
               })
-
-# TODO: Install, and then create a CM with the appropriate label
-#   see what it does
-#   then: add a step using Python to... do... something.

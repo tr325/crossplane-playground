@@ -1,3 +1,6 @@
+# Composite resource definitions (XRDs) define the schema of new Composite resources (XRs).
+#  This XRD specifies the new "App" XR
+
 apiVersion: apiextensions.crossplane.io/v2
 kind: CompositeResourceDefinition
 metadata:

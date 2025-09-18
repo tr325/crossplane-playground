@@ -1,0 +1,13 @@
+# Composition functions configure what Crossplane does when someone creates or updates a composite resource (XR)
+
+# You can use different languages for your composition functions:
+#  YAML: good choice for small, static compositions. It doesn’t support loops or conditionals.
+#  Templated YAML: if you’re used to writing Helm charts
+#  Python or KCL: for compositions with dynamic logic
+
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: crossplane-contrib-function-patch-and-transform
+spec:
+  package: xpkg.crossplane.io/crossplane-contrib/function-patch-and-transform:v0.8.2

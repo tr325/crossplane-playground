@@ -25,6 +25,9 @@ spec:
             image:
               description: The app's OCI container image.
               type: string
+            replicas:
+              description: The number of replicas for the app deployment
+              type: integer
           required:
           - image
         status:

@@ -1,0 +1,52 @@
+apiVersion: ops.crossplane.io/v1alpha1
+kind: WatchOperation
+metadata:
+  name: config-validator
+spec:
+  watch:
+    apiVersion: v1
+    kind: ConfigMap
+    matchLabels:
+      validate: "true"
+  concurrencyPolicy: Allow
+  operationTemplate:
+    spec:
+      mode: Pipeline
+      pipeline:
+      - step: validate
+        functionRef:
+          name: crossplane-contrib-function-python
+        input:
+          apiVersion: python.fn.crossplane.io/v1beta1
+          kind: Script
+          script: |
+            from crossplane.function import request, response
+
+            def operate(req, rsp):
+              valid = True
+
+              # Access the resource that triggered this Operation
+              watched_resource = request.get_required_resource(req, "ops.crossplane.io/watched-resource")
+              if not watched_resource:
+                response.set_output(rsp, {"error": "No watched resource found"})
+                return
+              
+              # Process based on the watched resource
+              if watched_resource["kind"] == "ConfigMap":
+                config_data = watched_resource["data"]
+                # Validate configuration...
+                if config_data["database.url"] != "http://localhost":
+                  valid = False
+
+              if not valid:
+                response.warning(rsp, "Config map is not valid")
+
+              # Return results in operation output for monitoring
+              response.set_output(rsp, {
+                "configMapName": watched_resource["metadata"]["name"],
+                "status": "warning" if not valid else "ok"
+              })
+
+# TODO: Install, and then create a CM with the appropriate label
+#   see what it does
+#   then: add a step using Python to... do... something.

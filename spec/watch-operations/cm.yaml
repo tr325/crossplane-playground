@@ -1,0 +1,11 @@
+# Does nothing, just creating an example resource to watch
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  generateName: watch-example-
+  labels:
+    validate: "true"
+data:
+  database.url: http://notlocalhost 
+  database.port: "1234"
